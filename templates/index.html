@@ -1,0 +1,26 @@
+{{ define "content" }}
+<h1>Daftar Proyek</h1>
+
+<form action="/project/create" method="POST" class="mb-5">
+  <input type="text" name="title" placeholder="Judul Project" required>
+  <input type="text" name="description" placeholder="Deskripsi" required>
+  <input type="text" name="link" placeholder="Link">
+  <button type="submit">Simpan</button>
+</form>
+
+<div class="row">
+  {{ range . }}
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ .Title }}</h5>
+        <p class="card-text">{{ .Description }}</p>
+        <a href="{{ .Link }}" class="btn btn-primary">Lihat</a>
+      </div>
+    </div>
+  </div>
+  {{ else }}
+  <p>Belum ada proyek.</p>
+  {{ end }}
+</div>
+{{ end }}
