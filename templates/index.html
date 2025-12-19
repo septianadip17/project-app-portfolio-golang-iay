@@ -1,26 +1,82 @@
 {{ define "content" }}
-<h1>Daftar Proyek</h1>
+<div class="hero-section text-center mb-5">
+  <div class="container">
+    <h1>Halo, Saya Junior Frontend & Network Engineer</h1>
+    <p class="lead">Selamat datang di portfolio saya. Berikut adalah project dan pengalaman kerja saya.</p>
+  </div>
+</div>
 
-<form action="/project/create" method="POST" class="mb-5">
-  <input type="text" name="title" placeholder="Judul Project" required>
-  <input type="text" name="description" placeholder="Deskripsi" required>
-  <input type="text" name="link" placeholder="Link">
-  <button type="submit">Simpan</button>
-</form>
+<div class="container">
 
-<div class="row">
-  {{ range . }}
-  <div class="col-md-4">
-    <div class="card mb-3">
-      <div class="card-body">
-        <h5 class="card-title">{{ .Title }}</h5>
-        <p class="card-text">{{ .Description }}</p>
-        <a href="{{ .Link }}" class="btn btn-primary">Lihat</a>
+  <h3 class="border-bottom pb-2 mb-3">Pengalaman Kerja</h3>
+  <div class="row mb-5">
+    {{ range .Experiences }}
+    <div class="col-md-6 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ .Role }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ .Company }}</h6>
+          <p class="card-text text-muted">
+            {{ .StartDate.Format "Jan 2006" }} -
+            {{ if .EndDate }} {{ .EndDate.Format "Jan 2006" }} {{ else }} Sekarang {{ end }}
+          </p>
+          <p class="card-text">{{ .Description }}</p>
+        </div>
+      </div>
+    </div>
+    {{ else }}
+    <p class="text-muted">Belum ada data pengalaman.</p>
+    {{ end }}
+  </div>
+
+  <h3 class="border-bottom pb-2 mb-3">Project Terbaru</h3>
+  <div class="row mb-5">
+    {{ range .Projects }}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm">
+        {{ if .ImageURL }}
+        <img src="{{ .ImageURL }}" class="card-img-top" alt="{{ .Title }}" style="height: 200px; object-fit: cover;">
+        {{ else }}
+        <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+          No Image
+        </div>
+        {{ end }}
+        <div class="card-body">
+          <h5 class="card-title">{{ .Title }}</h5>
+          <p class="card-text text-truncate">{{ .Description }}</p>
+          <a href="{{ .Link }}" class="btn btn-primary btn-sm" target="_blank">Lihat Project</a>
+        </div>
+      </div>
+    </div>
+    {{ else }}
+    <p class="text-muted">Belum ada project yang diupload.</p>
+    {{ end }}
+  </div>
+
+  <h3 class="border-bottom pb-2 mb-3">Hubungi Saya</h3>
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <form action="/contact" method="POST">
+            <div class="mb-3">
+              <label class="form-label">Nama</label>
+              <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Pesan</label>
+              <textarea name="message" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Kirim Pesan</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-  {{ else }}
-  <p>Belum ada proyek.</p>
-  {{ end }}
+
 </div>
 {{ end }}
